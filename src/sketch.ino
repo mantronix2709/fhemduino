@@ -171,6 +171,17 @@ char* sprintDate() {
 #endif
 
 /*-----------------------------------------------------------------------------------------------
+/* Forward declarations for new arduino IDE (1.6.6)
+-----------------------------------------------------------------------------------------------*/
+void handleInterrupt();
+void HandleCommand(String cmd);
+void decoders2500(unsigned int duration);
+void decoders(unsigned int duration);
+#ifdef COMP_OSV2
+void COMP_OSV2_HANDLER (unsigned int duration);
+#endif
+
+/*-----------------------------------------------------------------------------------------------
 /* Globals for message handling
 -----------------------------------------------------------------------------------------------*/
 String cmdstring;
@@ -438,6 +449,11 @@ void decoders(unsigned int duration) {
 #ifdef COMP_AURIOL
       if (rc == false) {
         rc = receiveProtocolAURIOL(changeCount);
+      }
+#endif
+#ifdef COMP_NC7104
+      if (rc == false) {
+        rc = receiveProtocolNC7104(changeCount);
       }
 #endif
       if (rc == false) {
